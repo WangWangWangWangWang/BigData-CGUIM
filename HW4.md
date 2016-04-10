@@ -1,5 +1,5 @@
 Facebook粉絲團分析（分析專頁名稱朱立倫）
-	================
+================
 	分析朱立倫從2016/01/01到2016/04/09發出的文章。
 	
 	``` if (!require('Rfacebook')){
@@ -7,8 +7,8 @@ Facebook粉絲團分析（分析專頁名稱朱立倫）
     library(Rfacebook)
     }
 	```
- 讀取朱立倫粉絲團資料
- --------------------
+讀取朱立倫粉絲團資料
+--------------------
 
 ``` r
 token<-'CAACEdEose0cBAGzAW2JrtuYSx5ZAy7zv75qWmgMV0UzONan3DjbZBpYWVeTuOkXd8tToF1285Kw2w4NzM0ORGArPRrnwR0LLsYjh99iiTd4535fEOBMP6IlLjHkIAWy2LePpwhxVvAlBdt9KRYNKxtBCtoTUXxb5QVNngJ5I3RhfTvIxhyhW0M0CDrr4fxQ6FotKJdowZDZD'
