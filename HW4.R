@@ -13,6 +13,8 @@ for(i in 1:(length(DateVectorStr)-1)){
     totalPage<-rbind(totalPage,tempPage)
 }
 
+nrow(totalPage)
+
 totalPage$datetime <- as.POSIXct(totalPage$created_time, 
                                  format = "%Y-%m-%dT%H:%M:%S+0000", 
                                  tz = "GMT") #2016-01-16T15:05:36+0000
