@@ -25,31 +25,23 @@ head(hw_new.sumYear)
 ```
 ##視覺畫呈現 
 ```{r setup, include=FALSE}
-StateCenter<-data.frame( 
-    region=tolower(state.name),lon=state.center$x,lat=state.center$y)
-head(StateCenter,1)
-#美國各州人口資料
-StatePop<-merge(df_pop_state,StateCenter,by="region") 
-head(StatePop,1)
+#安裝面量圖需要用到的package，以及一些基本數據。
 
-PopPoint<-NULL 
-for(i in 1:nrow(StatePop)){
-    #每100萬人轉為1點
-    for(j in 1:(StatePop[i,"value"]/1000000)){
-        PopPoint<-rbind(PopPoint,StatePop[i,])   
-    }
-}
-head(PopPoint,3)
+library(ggplot2)
+install.packages("choroplethr",dependencies = TRUE) install.packages("choroplethrMaps")
 
-USMap <- get_map(location = "United States", zoom = 4)
-densityMap<-ggmap(USMap, extent = "device") + 
-    geom_density2d(data = PopPoint, aes(x = lon, y = lat), size = 0.3) + 
-    stat_density2d(data = PopPoint, 
-            aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), 
-                size = 0.01, bins = 16, geom = "polygon") + 
-    scale_fill_gradient(low = "green", high = "red", guide = FALSE) + 
-    scale_alpha(range = c(0, 0.3), guide = FALSE)
-densityMap
+解釋如何選擇圖形種類:
 ```
+##因為題目上需要同時有三個變數，所以我覺得用使用xy軸個代表一個性質，在配上色彩的可以區別各洲，是最好的選擇。
+
+##程式碼+圖形呈現:
+```{r echo=T}
+ggplot(hw_new.sumYear, aes(x = YEAR, y = value,color=variable)) +
+geom_point()+geom_smooth(method='lm')
+```
+##解釋圖形:
+
+##x軸是年分，y軸是發生率，每洲有每個顏色。
+
 
 
