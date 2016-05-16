@@ -1,0 +1,41 @@
+---
+title: '0516'
+output: html_document
+---
+#1928-1969間，小兒麻痺在美國各州的發生率變化
+##資料前處理
+```{r setup, include=FALSE}
+hw_new <- read.csv("POLIO_Incidence.csv")
+names(hw_new)
+
+```
+##視覺畫呈現 
+```{r setup, include=FALSE}
+StateCenter<-data.frame( 
+    region=tolower(state.name),lon=state.center$x,lat=state.center$y)
+head(StateCenter,1)
+#美國各州人口資料
+StatePop<-merge(df_pop_state,StateCenter,by="region") 
+head(StatePop,1)
+
+PopPoint<-NULL 
+for(i in 1:nrow(StatePop)){
+    #每100萬人轉為1點
+    for(j in 1:(StatePop[i,"value"]/1000000)){
+        PopPoint<-rbind(PopPoint,StatePop[i,])   
+    }
+}
+head(PopPoint,3)
+
+USMap <- get_map(location = "United States", zoom = 4)
+densityMap<-ggmap(USMap, extent = "device") + 
+    geom_density2d(data = PopPoint, aes(x = lon, y = lat), size = 0.3) + 
+    stat_density2d(data = PopPoint, 
+            aes(x = lon, y = lat, fill = ..level.., alpha = ..level..), 
+                size = 0.01, bins = 16, geom = "polygon") + 
+    scale_fill_gradient(low = "green", high = "red", guide = FALSE) + 
+    scale_alpha(range = c(0, 0.3), guide = FALSE)
+densityMap
+```
+
+
