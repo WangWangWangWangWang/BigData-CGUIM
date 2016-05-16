@@ -33,9 +33,8 @@ install.packages("choroplethr",dependencies = TRUE) install.packages("choropleth
 
 ```
 ##解釋如何選擇圖形種類:
-```
 因為題目上需要同時有三個變數，所以我覺得用使用xy軸個代表一個性質，在配上色彩的可以區別各洲，是最好的選擇。
-```
+
 ##程式碼+圖形呈現:
 ```{r echo=T}
 ggplot(hw_new.sumYear, aes(x = YEAR, y = value,color=variable)) +
