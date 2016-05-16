@@ -5,8 +5,22 @@ output: html_document
 #1928-1969間，小兒麻痺在美國各州的發生率變化
 ##資料前處理
 ```{r setup, include=FALSE}
-hw_new <- read.csv("POLIO_Incidence.csv")
-names(hw_new)
+if (!require('ggplot2')){
+    install.packages("ggplot2")
+    library(ggplot2)#for get_map()
+}
+hw_new <- read.csv("POLIO_Incidence.csv",stringsAsFactors = F)
+head(hw_new)
+
+library(reshape2) 
+hw_new.m <- melt(hw_new,id.vars = c('YEAR','WEEK')) 
+head(hw_new.m)
+
+hw_new.m[hw_new.m$value=="-",]$value<-NA #處理缺值,將"-"轉為NA
+hw_new.m$value<-as.numeric(hw_new.m$value) #將value欄位轉為數字
+hw_new.sumYear<- #各州各年度加總，計算該年度的總發生率
+    aggregate(value~YEAR+variable,data=hw_new.m,FUN=sum,na.rm=F)
+head(hw_new.sumYear)
 
 ```
 ##視覺畫呈現 
