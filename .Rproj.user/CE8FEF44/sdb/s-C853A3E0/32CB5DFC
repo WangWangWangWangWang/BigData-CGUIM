@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1464529841079.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "32CB5DFC",
+    "lastKnownWriteTime" : 7163382525579913580,
+    "last_content_update" : 1464529841079,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "ewofq6ih9x",
+        "caption" : "BreastCancerC",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=BreastCancerC&cache_key=ewofq6ih9x",
+        "displayedObservations" : 683,
+        "environment" : "",
+        "object" : "BreastCancerC",
+        "totalObservations" : 683,
+        "variables" : 11
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

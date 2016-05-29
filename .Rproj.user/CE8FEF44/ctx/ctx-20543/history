@@ -319,3 +319,108 @@ View(for_fundata_1)
 View(for_fundata_1)
 View(for_fundata_1)
 View(for_fundata_2)
+install.packages("mlbench")
+library(mlbench)
+data(BreastCancer)
+str(BreastCancer)
+library(mlbench)
+data(BreastCancer)
+head(BreastCancer)
+BreastCancerC<-
+BreastCancer[complete.cases(BreastCancer),]
+c(nrow(BreastCancer),nrow(BreastCancerC))
+BreastCancerC<-BreastCancer[complete.cases(BreastCancer),#選資料完整的row
+!names(BreastCancer)%in%c("Id")]
+c(nrow(BreastCancer),nrow(BreastCancerC))
+BreastCancerC$Test<-F
+BreastCancerC[
+sample(1:nrow(BreastCancerC),nrow(BreastCancerC)/3),
+]$Test<-T
+c(sum(BreastCancerC$Test==F),sum(BreastCancerC$Test==T))
+fit<-glm(diabetes~age+pedigree+mass+insulin+triceps+pressure+glucose+pregnant, BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalFit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalFit)$coefficients
+View(BreastCancerC)
+View(BreastCancer)
+fit<-glm(diabetes~Cl.thickness+Cell.size+Cell.shape+Marg.adhesion+Epith.c.size+Bare.nuclei+Bl.cromatin+Normal.nucleoli+Mitoses+Class, BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalFit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalFit)$coefficients
+fit<-glm(diabetes~Cl.thickness+Cell.size+Cell.shape+Marg.adhesion+Epith.c.size+Bare.nuclei+Bl.cromatin+Normal.nucleoli+Mitoses+Class, BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(Test)
+finalFit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalFit)$coefficients
+MinePred<-predict(finalFit,newdata = PimaIndiansDiabetesC[PimaIndiansDiabetesC$Test==T,])
+MineAns<-ifelse(MinePred<0.5,"neg","pos") #<0.5: Level 1
+MineAns<-factor(MineAns,levels = c("neg","pos"))
+library(caret)
+install.packages("caret")
+health<-glm(diabetes~age+pedigree+mass+insulin+triceps+pressure+glucose+pregnant, PimaIndiansDiabetesC[PimaIndiansDiabetesC$Test==F,],family="binomial")
+health<-glm(diabetes~age+pedigree+mass+insulin+triceps+pressure+glucose+pregnant, PimaIndiansDiabetesC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(diabetes~age+pedigree+mass+insulin+triceps+pressure+glucose+pregnant, BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(Class~Epith.c.size+Marg.adhesion+Cell.shape+Cell.size+Cl.thickness , BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(Class~ , BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(Class~,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+health<-glm(Class~Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+View(BreastCancer)
+library(MASS)
+finalhealth<-stepAIC(health,direction = "both",trace = F)
+summary(finalhealth)$coefficients
+health<-glm(Class~Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei+Epith.c.size+Marg.adhesion+Cell.shape+Cell.size+Cl.thickness,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei+Epith.c.size+Marg.adhesion+Cell.shape+Cell.size+Cl.thickness,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalhealth<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+library(MASS)
+finalhealth<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+fit<-glm(Class~Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei+Epith.c.size+Marg.adhesion+Cell.shape+Cell.size+Cl.thickness,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+MinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])
+MineAns<-ifelse(MinePred<0.5,"neg","pos") #<0.5: Level 1
+MineAns<-factor(MineAns,levels = c("neg","pos"))
+install.packages("caret")
+library(caret)
+MinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])
+MineAns<-ifelse(MinePred<0.5,"neg","pos") #<0.5: Level 1
+MineAns<-factor(MineAns,levels = c("neg","pos"))
+sensitivity(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)
+negPredValue(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)
+MinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+fit<-glm(Class~Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses+Normal.nucleoli+ Bl.cromatin+Bare.nuclei,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses+Normal.nucleoli,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+fit<-glm(Class~Mitoses,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+MinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])
+MineAns<-ifelse(MinePred<0.5,"neg","pos") #<0.5: Level 1
+MineAns<-factor(MineAns,levels = c("neg","pos"))
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+------------
+由於變數多，且輸出為二元類別變數，故選擇多變數線性迴歸演算法建立模型，並使用雙向逐步選擇最佳參數組合。
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+fit<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+install.packages("rpart")
+library(rpart)
+fit<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+fit<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+install.packages("mlbench")
+library(mlbench)
+data(BreastCancer)
+str(BreastCancer)

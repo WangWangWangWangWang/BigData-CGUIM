@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(\"jsonlite\")\nHotel_data <- fromJSON(\"http://data.taipei.gov.tw/opendata/apply/query/NDQxOEM2MDAtRDdGNS00NkQ2LUJCMUYtMURBMjlEQUI5MUU5?$format=json\")\nhead(Hotel_data)\n\nfor_fundata_1 <- read.csv(\"C:/Users/User/Documents/Book1.csv\")\nfor_fundata_2 <- read.csv(\"C:/Users/User/Documents/Book2.csv\")\nfor_fundata_3 <- read.csv(\"C:/Users/User/Documents/Book3.csv\")\nfor_fundata_4 <- read.csv(\"C:/Users/User/Documents/Book4.csv\")\nfor_fundata_5 <- read.csv(\"C:/Users/User/Documents/Book5.csv\")\nfor_fundata_6 <- read.csv(\"C:/Users/User/Documents/Book6.csv\")\nif(!require('rgdal')){forfortify()\ninstall.packages(\"rgdal\");\nlibrary(rgdal)\n}\n\nif(!require('rgeos')){forfortify()\ninstall.packages(\"rgeos\");\nlibrary(rgeos)\n}\n\nif(!require('maptools')){forreadShapeSpatial()\ninstall.packages(\"maptools\");\nlibrary(maptools)\n}\nlibrary(sp)\nlibrary(ggplot2)\nhead(newtpe_map$ADMIT_ID)\nnewtpe_map.df<-fortify(newtpe_map, region =\"ADMIT_ID\")\nhead(newtpe_map.df,10)",
+    "created" : 1464013096455.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "3541062831",
+    "id" : "ABA63574",
+    "lastKnownWriteTime" : 4,
+    "last_content_update" : 1464512930514,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

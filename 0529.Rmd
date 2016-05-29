@@ -1,0 +1,132 @@
+FinalHW
+================
+
+縸Э痜 箇代家
+===============
+
+戈玡矪瞶
+----------
+
+秆睦戈
+--------
+Predict whether a cancer is malignant or benign from biopsy details.
+Type: Binary Classification
+-Dimensions: 699 instances, 11 attributes
+-Inputs: Integer (Nominal)
+-Output: Categorical, 2 class labels
+
+
+``` r
+install.packages("mlbench")
+
+library(mlbench)
+
+data(BreastCancer)
+
+str(BreastCancer)
+```
+
+   
+
+
+р戈弄秈ㄓ
+------------
+
+``` r
+library(mlbench)
+data(BreastCancer)
+head(BreastCancer) 
+```
+
+
+戈玡矪瞶
+------------
+
+``` r
+BreastCancerC<-BreastCancer[complete.cases(BreastCancer),
+
+!names(BreastCancer)%in%c("Id")]
+
+c(nrow(BreastCancer),nrow(BreastCancerC))
+```
+
+    ## [1] 699 683
+
+だΘ癡絤舱蛤代刚舱魁舱计
+----------------------------------
+
+繦诀盢2/3戈だ癡絤舱Test==F逞1/3代刚舱Test==T
+
+``` r
+BreastCancerC$Test<-F
+
+BreastCancerC[
+sample(1:nrow(BreastCancerC),nrow(BreastCancerC)/3),]$Test<-T
+c(sum(BreastCancerC$Test==F),sum(BreastCancerC$Test==T))
+```
+
+    ## [1] 456 227
+
+ǎ癡絤舱ㄒ456代喷舱ㄒ嬬偤227
+
+箇代家ミ
+------------
+
+パ跑计块じ摸跑计珿匡拒跑计絬┦癹耴簍衡猭ミ家ㄏノ蛮硋˙匡拒程ㄎ把计舱
+
+``` r
+fit<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family="binomial")
+
+library(MASS)
+finalfit<-stepAIC(fit,direction = "both",trace = F)
+summary(finalfit)$coefficients
+```
+
+   
+
+家弧
+--------
+
+パ瓃把计ㄏノ贺把计ㄓ浪代砰┮眔戈跑计絬┦癹耴ミ家箇代琌ㄅ砾眞竒程ㄎて家ㄏノ把计把计眖砰浪代ㄓ计沮
+
+箇代家喷靡
+------------
+
+``` r
+MinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])
+MineAns<-ifelse(MinePred<0.5,"neg","pos") #<0.5: Level 1
+MineAns<-factor(MineAns,levels = c("neg","pos"))
+```
+
+``` r
+library(caret) # install.packages("caret")
+```
+
+    ## Loading required package: lattice
+
+    ## Loading required package: ggplot2
+
+``` r
+sensitivity(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)
+```
+
+    ## [1] 0.9766082
+
+``` r
+specificity(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)
+```
+
+    ## [1] 0.4588235
+
+``` r
+posPredValue(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)
+```
+
+    ## [1] 0.7840376
+
+``` r
+negPredValue(MineAns,BreastCancerC[BreastCancersC$Test==T,]$diabetes)
+```
+
+    ## [1] 0.9069767
+

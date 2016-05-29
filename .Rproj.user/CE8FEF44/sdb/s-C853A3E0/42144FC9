@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "FinalHW\n================\n\n乳癌資料集\n===============\n\n資料前處理\n----------\n\n解釋資料\n--------\nPredict whether a cancer is malignant or benign from biopsy details.\nType: Binary Classification\n-Dimensions: 699 instances, 11 attributes\n-Inputs: Integer (Nominal)\n-Output: Categorical, 2 class labels\n\n\n``` r\ninstall.packages(\"mlbench\")\n\nlibrary(mlbench)\n\ndata(BreastCancer)\n\nstr(BreastCancer)\n```\n\n   \n\n\n把資料讀進來\n------------\n\n``` r\nlibrary(mlbench)\ndata(BreastCancer)\nhead(BreastCancer) \n```\n\n\n資料前處理\n----------\n\n``` r\nBreastCancerC<-BreastCancer[complete.cases(BreastCancer),#選資料完整的row\n\n!names(BreastCancer)%in%c(\"Id\")]\n\nc(nrow(BreastCancer),nrow(BreastCancerC))\n```\n\n    ## [1] 699 683\n\n分成訓練組跟測試組，並紀錄各組人數\n----------------------------------\n\n隨機將2/3的資料分到訓練組（Test==F），剩下1/3為測試組（Test==T）\n\n``` r\nBreastCancerC$Test<-F\n\nBreastCancerC[\nsample(1:nrow(BreastCancerC),nrow(BreastCancerC)/3),\n]$Test<-T\nc(sum(BreastCancerC$Test==F),sum(BreastCancerC$Test==T))\n```\n\n    ## [1] 456 227\n\n可見訓練組案例為456，測驗組案例為227\n\n預測模型建立\n------------\n\n由於變數多，且輸出為二元類別變數，故選擇多變數線性迴歸演算法建立模型，並使用雙向逐步選擇最佳參數組合。\n\n``` r\ninstall.packages(\"rpart\")\nlibrary(rpart)\n\nfit<-glm(Class~.,BreastCancerC[BreastCancerC$Test==F,],family=\"binomial\")\n\nlibrary(MASS)\nfinalfit<-stepAIC(fit,direction = \"both\",trace = F)\nsummary(finalfit)$coefficients\n```\n\n模型說明\n--------\n\n由上述參數可知，使用多種參數來檢測人體所得到的資料，以多變數線性迴歸建立模型預測是否為乳癌患者，經最佳化後，模型使用參數為Mitoses+ Normal.nucleoli+ Bl.cromatin+ Bare.nuclei+Epith.c.size+Marg.adhesion+Cell.shape+Cell.size+Cl.thickness，各參數代表從人體檢測出來的數據值。\n\n預測模型驗證\n------------\n\n``` r\nMinePred<-predict(finalFit,newdata = BreastCancerC[BreastCancerC$Test==T,])\nMineAns<-ifelse(MinePred<0.5,\"neg\",\"pos\") #<0.5: Level 1\nMineAns<-factor(MineAns,levels = c(\"neg\",\"pos\"))\n```\n\n``` r\nlibrary(caret) # install.packages(\"caret\") \n```\n\n    ## Loading required package: lattice\n\n    ## Loading required package: ggplot2\n\n``` r\nsensitivity(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)\n```\n\n    ## [1] 0.9766082\n\n``` r\nspecificity(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)\n```\n\n    ## [1] 0.4588235\n\n``` r\nposPredValue(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)\n```\n\n    ## [1] 0.7840376\n\n``` r\nnegPredValue(MineAns,BreastCancerC[BreastCancerC$Test==T,]$diabetes)\n```\n\n    ## [1] 0.9069767\n\n-   敏感度 97.6608187%\n-   特異性 45.8823529%\n-   陽性預測率 78.4037559%\n-   陰性預測率 90.6976744%",
+    "created" : 1464528816904.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1070766766",
+    "id" : "42144FC9",
+    "lastKnownWriteTime" : 1464537141,
+    "last_content_update" : 1464538172301,
+    "path" : "D:/0. 程式/BIGDATA 作業/BigData CGUIM/0529.Rmd",
+    "project_path" : "0529.Rmd",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
